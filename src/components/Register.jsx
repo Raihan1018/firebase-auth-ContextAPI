@@ -1,18 +1,26 @@
-import React, { useContext } from "react";
+import { use } from "react";
 import { Link } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../context/AuthContext/AuthContext";
+import { toast } from "react-toastify";
 
 const Register = () => {
-  const authInfo = useContext(AuthContext);
-  console.log(authInfo);
+  const { createUser } = use(AuthContext);
 
   const handleRegister = (e) => {
     e.preventDefault();
 
-    const name = e.target.name.value;
     const email = e.target.email.value;
     const password = e.target.password.value;
-    console.log({ name, email, password });
+
+    createUser(email, password)
+      .then((res) => {
+        console.log(res.user);
+        toast.success("User Created");
+      })
+      .catch((error) => {
+        console.log(error.message);
+        toast.error(error.message);
+      });
   };
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-gray-800 flex items-center justify-center px-4">
@@ -27,7 +35,7 @@ const Register = () => {
 
         <form onSubmit={handleRegister} className="space-y-5">
           {/* user name */}
-          <div>
+          {/* <div>
             <label className="label-text text-gray-300 mb-1 block">
               Full Name
             </label>
@@ -38,7 +46,7 @@ const Register = () => {
               className="input input-bordered w-full bg-gray-800 text-gray-200 placeholder-gray-500 border-gray-700 focus:border-pink-500 focus:outline-none"
               required
             />
-          </div>
+          </div> */}
           {/* email */}
           <div>
             <label className="label-text text-gray-300 mb-1 block">Email</label>
