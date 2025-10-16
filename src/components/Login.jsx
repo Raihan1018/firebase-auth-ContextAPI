@@ -14,6 +14,7 @@ const Login = () => {
 
     const email = e.target.email.value;
     const password = e.target.password.value;
+
     signInUser(email, password)
       .then((result) => {
         e.target.reset();
@@ -30,14 +31,17 @@ const Login = () => {
       .then((result) => {
         console.log(result.user);
         navigate(location?.state || "/");
+        toast.success("Google Login Successful");
       })
       .catch((error) => {
-        console.log(error.message);
+        toast.error(error.message);
       });
   };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black flex items-center justify-center px-4">
       <title>Login</title>
+
       <div className="w-full max-w-md bg-gray-900/60 backdrop-blur-xl border border-gray-700 rounded-2xl shadow-2xl p-8">
         <h1 className="text-4xl font-bold text-center text-white mb-2">
           Welcome Back
@@ -45,24 +49,40 @@ const Login = () => {
         <p className="text-center text-gray-400 mb-6">
           Login to continue your journey
         </p>
+
         {user ? (
-          <div className="mx-auto shadow-lg">
-            <figure className="rounded-full mx-auto">
+          // 🧩 User Info Card
+          <div className="flex flex-col items-center justify-center text-center bg-gray-900/50 backdrop-blur-lg rounded-2xl p-8 border border-gray-700 shadow-2xl transition-transform duration-300 hover:scale-105">
+            <div className="relative">
               <img
-                className="rounded-full mx-auto w-24 h-24 object-cover"
+                className="rounded-full w-28 h-28 object-cover border-4 border-indigo-500 shadow-lg"
                 src={
                   user?.photoURL ||
                   "https://img.icons8.com/?size=100&id=22396&format=png&color=000000"
                 }
-                alt="User"
+                alt="User Avatar"
               />
-            </figure>
-            <h4 className="text-center text-xl font-semibold">
-              Name: {user?.displayName || "User"}
-            </h4>
-            <h2 className="text-center">Email: {user?.email || "No Email"}</h2>
+              <span className="absolute bottom-2 right-2 w-4 h-4 bg-green-500 rounded-full border-2 border-gray-900"></span>
+            </div>
+
+            <h2 className="mt-4 text-2xl font-semibold text-white">
+              {user?.displayName || "User"}
+            </h2>
+            <p className="text-gray-400 text-sm">
+              {user?.email || "No Email Provided"}
+            </p>
+
+            <div className="mt-6 w-full border-t border-gray-700 pt-4 flex flex-col gap-3">
+              <button
+                onClick={() => navigate("/")}
+                className="btn bg-gray-800 hover:bg-gray-700 text-gray-200 w-full border-none"
+              >
+                Go to Home
+              </button>
+            </div>
           </div>
         ) : (
+          // 🧠 Login Form
           <form onSubmit={handleLogin} className="space-y-5">
             <div>
               <label className="label-text text-gray-300 mb-1 block">
@@ -76,6 +96,7 @@ const Login = () => {
                 required
               />
             </div>
+
             <div>
               <label className="label-text text-gray-300 mb-1 block">
                 Password
@@ -93,20 +114,24 @@ const Login = () => {
                 </a>
               </div>
             </div>
+
             <button className="btn w-full bg-indigo-600 hover:bg-indigo-700 text-white border-none">
               Login
             </button>
-            {/* google */}
+
+            {/* 🔹 Google Sign-In */}
             <button
-              onClick={signInWithGoogle}
-              className="w-full btn bg-white text-black border-[#e5e5e5]"
+              onClick={handleGoogleSignIn}
+              type="button"
+              className="w-full btn bg-white text-black border-[#e5e5e5] hover:bg-gray-100"
             >
               <svg
                 aria-label="Google logo"
-                width="16"
-                height="16"
+                width="18"
+                height="18"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 512 512"
+                className="mr-2"
               >
                 <g>
                   <path d="m0 0H512V512H0" fill="#fff"></path>
