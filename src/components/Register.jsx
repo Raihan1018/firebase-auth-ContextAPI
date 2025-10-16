@@ -9,7 +9,7 @@ const Register = () => {
   const handleRegister = (e) => {
     e.preventDefault();
 
-    const name = e.target.name.value;
+    // const name = e.target.name.value;
     const email = e.target.email.value;
     const password = e.target.password.value;
 
@@ -36,7 +36,7 @@ const Register = () => {
 
         <form onSubmit={handleRegister} className="space-y-5">
           {/* user name */}
-          <div>
+          {/* <div>
             <label className="label-text text-gray-300 mb-1 block">
               Full Name
             </label>
@@ -47,7 +47,7 @@ const Register = () => {
               className="input input-bordered w-full bg-gray-800 text-gray-200 placeholder-gray-500 border-gray-700 focus:border-pink-500 focus:outline-none"
               required
             />
-          </div>
+          </div> */}
           {/* email */}
           <div>
             <label className="label-text text-gray-300 mb-1 block px">
