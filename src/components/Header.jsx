@@ -1,8 +1,17 @@
-import React from "react";
+import React, { use } from "react";
 import MyNavLink from "./MyNavLink";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext/AuthContext";
 
 const Header = () => {
+  const { user, signOutUser } = use(AuthContext);
+  // console.log(user);
+  const handleSignOut = (e) => {
+    signOutUser().then((result) => {
+      console.log(result);
+      e.target.reset();
+    });
+  };
   const links = (
     <>
       <li className="text-xl font-semibold">
@@ -14,6 +23,16 @@ const Header = () => {
       <li className="text-xl font-semibold">
         <MyNavLink to={"/register"}>Register</MyNavLink>
       </li>
+      <li className="text-xl font-semibold">
+        <MyNavLink to={"/order"}>Order</MyNavLink>
+      </li>
+      {user && (
+        <>
+          <li className="text-xl font-semibold">
+            <MyNavLink to={"/profile"}>Profile</MyNavLink>
+          </li>
+        </>
+      )}
     </>
   );
   return (
@@ -56,7 +75,9 @@ const Header = () => {
         <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
       <div className="navbar-end">
-        <Link className="btn">Button</Link>
+        <div onClick={handleSignOut} className="btn">
+          {user ? "Log out" : "Login"}
+        </div>
       </div>
     </div>
   );
